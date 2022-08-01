@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Restaurant App',
       theme: ThemeData(
         primarySwatch: Colors.purple,
         primaryColor: Colors.white,

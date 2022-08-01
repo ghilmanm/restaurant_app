@@ -19,38 +19,46 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
-              padding: EdgeInsets.only(
-                top: 50,
-                left: 15,
-              ),
-              child: Text(
-                'Restaurant',
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(
-                bottom: 20,
-                left: 15,
-              ),
-              child: Text(
-                'Recommendation restaurant for you!',
-              ),
-            ),
             Flexible(
               child: FutureBuilder<String>(
                 future: DefaultAssetBundle.of(context)
                     .loadString('assets/restaurant.json'),
                 builder: (context, snapshot) {
                   final List<Restaurant> restaurant =
-                  parseRestaurants(snapshot.data);
+                      parseRestaurants(snapshot.data);
                   return ListView.builder(
+                    shrinkWrap: true,
                     itemCount: restaurant.length,
                     itemBuilder: (context, index) {
+                      if (index == 0) {
+                        return Column(
+                          children: const [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                top: 30,
+                                left: 15,
+                              ),
+                              child: Text(
+                                'Restaurant',
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                bottom: 20,
+                                left: 15,
+                              ),
+                              child: Text(
+                                'Recommendation restaurant for you!',
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                      index -= 1;
                       return RestaurantList(
                         restaurant: restaurant[index],
                       );

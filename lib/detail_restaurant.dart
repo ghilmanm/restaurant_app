@@ -23,99 +23,119 @@ class _DetailRestaurantState extends State<DetailRestaurant> {
         headerSliverBuilder: (context, isScrolled) {
           return [
             SliverAppBar(
-              expandedHeight: 200,
+              expandedHeight: 500,
               flexibleSpace: FlexibleSpaceBar(
-                background: Stack(
-                  fit: StackFit.expand,
+                background: Column(
                   children: [
-                    Hero(
-                      tag: args.restaurant.pictureId,
-                      child: Image.network(
-                        args.restaurant.pictureId,
-                        fit: BoxFit.fitWidth,
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          color: Colors.black26,
-                          borderRadius:
-                              BorderRadius.only(topRight: Radius.circular(8)),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                args.restaurant.name,
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 19),
+                    SizedBox(
+                      height: 250,
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          Hero(
+                            tag: args.restaurant.pictureId,
+                            child: Image.network(
+                              args.restaurant.pictureId,
+                              fit: BoxFit.fitWidth,
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                color: Colors.black26,
+                                borderRadius:
+                                    BorderRadius.only(topRight: Radius.circular(8)),
                               ),
-                              const SizedBox(height: 5,),
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.location_on,
-                                    color: Colors.white,
-                                    size: 14,
-                                  ),
-                                  Text(
-                                    args.restaurant.city,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.white,
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      args.restaurant.name,
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 19),
                                     ),
-                                  ),
-                                ],
+                                    const SizedBox(height: 5,),
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.location_on,
+                                          color: Colors.white,
+                                          size: 14,
+                                        ),
+                                        Text(
+                                          args.restaurant.city,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ],
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                color: Colors.black26,
+                                borderRadius:
+                                    BorderRadius.only(topLeft: Radius.circular(8)),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.star,
+                                      color: Colors.orange,
+                                      size: 17,
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(args.restaurant.rating.toString(), style: const TextStyle(color: Colors.white),),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        color: Colors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: Text(
+                              args.restaurant.description,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 15,
+                              style: TextStyle(color: Colors.grey[700], fontSize: 17),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          color: Colors.black26,
-                          borderRadius:
-                              BorderRadius.only(topLeft: Radius.circular(8)),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.star,
-                                color: Colors.orange,
-                                size: 17,
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              Text(args.restaurant.rating.toString(), style: const TextStyle(color: Colors.white),),
-                            ],
-                          ),
-                        ),
-                      ),
-                    )
                   ],
                 ),
               ),
             ),
           ];
         },
-        body: SafeArea(
-          child: MenusList(
-            desc: args.restaurant.description,
-            food: foods,
-            drink: drinks,
-          ),
+        body: MenusList(
+          food: foods,
+          drink: drinks,
         ),
       ),
     );
@@ -123,14 +143,12 @@ class _DetailRestaurantState extends State<DetailRestaurant> {
 }
 
 class MenusList extends StatelessWidget {
-  final String desc;
   final List<Food> food;
   final List<Drink> drink;
   const MenusList({
     Key? key,
     required this.food,
     required this.drink,
-    required this.desc,
   }) : super(key: key);
 
   SliverPersistentHeader _header(String text) {
@@ -148,7 +166,7 @@ class MenusList extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 text,
-                style: TextStyle(color: Colors.grey[700], fontSize: 17),
+                style: TextStyle(color: Colors.grey[700], fontSize: 17,),
               ),
             ),
           ),
@@ -157,30 +175,11 @@ class MenusList extends StatelessWidget {
     );
   }
 
-  SliverPersistentHeader _headerRestaurant(String text) {
-    return SliverPersistentHeader(
-      floating: false,
-      delegate: SliverAppBarDelegate(
-        minHeight: 45,
-        maxHeight: 120,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Center(
-            child: Text(
-              text,
-              style: TextStyle(color: Colors.grey[700], fontSize: 17),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
-        _headerRestaurant(desc),
         _header('Makanan (${food.length})'),
         SliverList(
           delegate: SliverChildListDelegate(

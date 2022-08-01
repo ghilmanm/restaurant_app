@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restoran_app/detail_restaurant.dart';
+import 'package:restoran_app/splash_screen.dart';
 import 'home_page.dart';
 
 void main() {
@@ -20,7 +21,8 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const MyHomePage(title: 'Flutter Demo Home Page'),
+        '/': (context) => const SplashScreen(),
+        MyHomePage.routeName: (context) => const  MyHomePage(title: 'Flutter Demo Home Page'),
         DetailRestaurant.routeName: (context) => const DetailRestaurant(),
       },
     );

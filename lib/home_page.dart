@@ -3,6 +3,7 @@ import 'components/restaurant_list.dart';
 import 'data/model/restaurant.dart';
 
 class MyHomePage extends StatefulWidget {
+  static const routeName = '/home_page';
   const MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;

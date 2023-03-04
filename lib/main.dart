@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:restoran_app/detail_restaurant.dart';
-import 'package:restoran_app/splash_screen.dart';
-import 'home_page.dart';
+import 'package:get/get.dart';
+import 'presentation/services/dependency_injection.dart';
+import 'presentation/services/theme_service.dart';
+import 'presentation/services/translations_service.dart';
+import 'presentation/routes/app_pages.dart';
+import 'presentation/routes/app_routes.dart';
+import 'presentation/ui/layouts/main/main_layout.dart';
+import 'presentation/ui/theme/themes.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  DependecyInjection.init();
+
   runApp(const MyApp());
 }
 
@@ -12,21 +20,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Restaurant App',
-      theme: ThemeData(
-        primarySwatch: Colors.purple,
-        primaryColor: Colors.white,
-      ),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const SplashScreen(),
-        MyHomePage.routeName: (context) => const  MyHomePage(title: 'Flutter Demo Home Page'),
-        DetailRestaurant.routeName: (context) => const DetailRestaurant(),
+    return ScreenUtilInit(
+      builder: (_, __) {
+        return GetMaterialApp(
+          title: 'Restaurant_app',
+          debugShowCheckedModeBanner: false,
+          theme: Themes().lightTheme,
+          darkTheme: Themes().darkTheme,
+          themeMode: ThemeService.instance.themeMode,
+          translations: Translation(),
+          locale: const Locale('en'),
+          fallbackLocale: const Locale('en'),
+          initialRoute: AppRoutes.HOME,
+          unknownRoute: AppPages.unknownRoutePage,
+          getPages: AppPages.pages,
+          builder: (_, child) {
+            return MainLayout(child: child!);
+          },
+        );
       },
     );
   }
 }
-
-

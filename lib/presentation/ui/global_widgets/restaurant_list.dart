@@ -1,47 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:restaurant_app/data/providers/network/api_endpoint.dart';
 
-import '../data/model/restaurant.dart';
-import '../data/model/route_argument.dart';
-import '../detail_restaurant.dart';
+import '../../../domain/entities/restaurant.dart';
 
 class RestaurantList extends StatelessWidget {
   final Restaurant restaurant;
-  const RestaurantList({Key? key, required this.restaurant}) : super(key: key);
+  final VoidCallback ontap;
+  const RestaurantList(
+      {Key? key, required this.restaurant, required this.ontap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(
-          context,
-          DetailRestaurant.routeName,
-          arguments: DetailRestaurantArguments(
-            restaurant,
-            restaurant.menus,
-          ),
-        );
-      },
+      onTap: ontap,
       child: Container(
-        margin: const EdgeInsetsDirectional.fromSTEB(20, 0, 20, 40),
+        margin: EdgeInsetsDirectional.fromSTEB(20.h, 0, 20.h, 20.h),
         child: AspectRatio(
           aspectRatio: 4 / 1,
           child: Row(
             children: [
               AspectRatio(
                 aspectRatio: 1 / 1,
-                child: Hero(
-                  tag: restaurant.pictureId,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.network(
-                      restaurant.pictureId,
-                      fit: BoxFit.cover,
-                    ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.network(
+                    '${APIEndpoint.dicodingimage}/small/${restaurant.pictureId}',
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
-              const SizedBox(
-                width: 20,
+              SizedBox(
+                width: 16.w,
               ),
               AspectRatio(
                 aspectRatio: 8 / 3,
@@ -54,7 +45,7 @@ class RestaurantList extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
+                            padding: EdgeInsets.only(bottom: 4.h),
                             child: Text(
                               restaurant.name,
                               style: const TextStyle(
